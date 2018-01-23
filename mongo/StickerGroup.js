@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var shortid = require('shortid');
 var Chat = require('./Chat');
 
 var StickerGroupSchema = new mongoose.Schema({
@@ -46,27 +45,6 @@ StickerGroupSchema.post('remove', function(doc) {
         console.log("refs removed");
     });
 });
-
-// Mark active sticker group as inactive, set url slug
-// then create new active sticker group
-StickerGroupSchema.statics.finalize = function(stickerGroup) {
-    return new Promise((resolve, reject) => {
-        stickerGroup.isActive = false;
-        stickerGroup.urlSlug = shortid.generate();
-        stickerGroup.save(function(err, sg) {
-            if (err) reject(err);
-
-            StickerGroup.findOneAndUpdate({
-                chat: sg.chat,
-                isActive: true
-            }, {}, { upsert: true, new: true }, function(err, doc) {
-                if (err) reject(err);
-                // Resolve with first sticker group, we want the url slug
-                else resolve({ "previous": sg, "current": doc });
-            });
-        });
-    });
-};
 
 StickerGroupSchema.statics.updateRefs = function(add_or_remove, stickerGroup, cb) {
     Chat.findOne(stickerGroup.chat, function(err, chat) {
