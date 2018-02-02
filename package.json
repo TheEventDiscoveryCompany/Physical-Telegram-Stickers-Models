@@ -1,6 +1,6 @@
 {
   "name": "physical-telegram-stickers-models",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DB models for physical telegram stickers",
   "main": "index.js",
   "scripts": {
