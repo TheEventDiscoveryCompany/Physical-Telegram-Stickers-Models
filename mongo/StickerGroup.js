@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Chat = require('./Chat');
+var Sticker = require('./Sticker');
 
 var StickerGroupSchema = new mongoose.Schema({
     chat: {
